@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onapage.project.unit.mapper.LaborServiceUnitInfoMapper">
+        <select id="query"  resultType="laborServiceUnitInfo">
+                select
+                    labor_service_unit_id,
+                    legal_person,company,
+                    share_proportion,
+                    contract_number,
+                    company_type
+                from
+                    labor_service_unit_info
+        </select>
+    <select id="queryByCondition"  resultType="laborServiceUnitInfo">
+                select
+                    labor_service_unit_id,
+                    legal_person,
+                    company,
+                    share_proportion,
+                    contract_number,
+                    company_type
+                from
+                    labor_service_unit_info
+                <where>
+                    <if test="name!= null and name != ''">
+                        and legal_person = #{name}
+                    </if>
+                    <if test="company != null and company !=''">
+                        and  company=#{company}
+                    </if>
+                    <if test="companyType != null">
+                        and  company_type=#{companyType}
+                    </if>
+                </where>
+        </select>
+
+    <update id="update" parameterType="laborServiceUnitInfo"  >
+                update
+                    labor_service_unit_info
+                set
+                    <if test="legalPerson!=null">
+                        legal_person=#{legalPerson} ,
+                    </if>
+                    <if test="company!=null">
+                        company=#{company} ,
+                    </if>
+                    <if test="shareProportion!=null">
+                        share_proportion=#{shareProportion} ,
+                    </if>
+                    <if test="legalPerson!=null">
+                        contract_number=#{contractNumber},
+                    </if>
+                    <if test="companyType!=null">
+                        company_type=#{companyType}
+                    </if>
+                where
+                    labor_service_unit_id=#{laborServiceUnitId}
+        </update>
+
+    
+    <insert id="add" parameterType="laborServiceUnitInfo"  >
+                insert  into labor_service_unit_info (
+                labor_service_unit_id,
+                legal_person,
+                company,
+                share_proportion,
+                contract_number ,
+                company_type
+                )
+                values (null ,
+                #{legalPerson},
+                #{company},
+                #{shareProportion},
+                #{contractNumber},
+                #{companyType}
+                )
+        </insert>
+
+    <delete id="delete" parameterType="list">
+            delete from labor_service_unit_info where labor_service_unit_id in
+            <foreach collection="list" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+
+    </delete>
+</mapper>

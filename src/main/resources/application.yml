@@ -1,0 +1,90 @@
+server:
+   port: 8080
+spring:
+   #格式化时间格式
+    jackson:
+       date-format: yyyy-MM-dd HH:mm:ss
+       time-zone: GMT+8
+    datasource:
+# mysql
+#        url: jdbc:mysql://mysql:8090/projectdb?useUnicode=true&useSSL=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+#        url: url
+        url: jdbc:mysql://127.0.0.1:3306/projectdb?useUnicode=true&useSSL=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+        driverClassName: com.mysql.cj.jdbc.Driver
+        schema:
+          - classpath:init.sql
+        initialization-mode:  always
+#        driver-class-name: com.mysql.jdbc.Driver
+ # oracle
+        #url: jdbc:oracle:thin:@127.0.0.1:1521:ORACLE
+        #username: zqq
+        #password: 123456
+        #driverClassName: oracle.jdbc.driver.OracleDriver
+
+        #默认连接池配置r
+        hikari:
+          minimum-idle: 5
+          maximum-pool-size: 50
+          auto-commit: true
+          idle-timeout: 30000
+          pool-name: DatebookHikariCP
+          max-lifetime: 1800000
+          connection-timeout: 100001
+pagehelper:
+   helper-Dialect: mysql
+   
+swagger:
+  title: "0.0.1"
+  version: "1.0.0"
+#  base-package: swagger扫描的基础包，默认：全扫描
+  enabled: true
+  # 显示请求头
+  ui-config.show-request-headers: true
+  exclude-path: /error, /ops/**
+  # 取消使用默认预定义的响应消息,并使用自定义响应消息
+  apply-default-response-messages: false
+  global-response-message.post[0]:
+    code: 200
+    message: OK
+  global-response-message.post[1]:
+    code: 201
+    message: 保存成功
+  global-response-message.post[2]:
+    code: 400
+    message: 错误请求
+  global-response-message.post[3]:
+    code: 401
+    message: 令牌错误
+  global-response-message.post[4]:
+    code: 403
+    message: 禁止请求
+  global-response-message.post[5]:
+    code: 404
+    message: 未找到文件
+  global-response-message.post[6]:
+    code: 413
+    message: 请求的实体过大
+  global-response-message.post[7]:
+    code: 1000
+    message: 保存失败
+  global-response-message.post[8]:
+    code: 500
+    message: 未知错
+  print-init: true #非必需,默认false
+
+  ##enabled: true 非必需,默认true
+  ##docket:
+    ##base-package: com.onepage.project   #必需
+mybatis-plus:
+  check-config-location: true
+  #扫描别名配置文件
+#  type-aliases-package: com.onapage.project.*
+  type-aliases-package: com.onapage.project.*.pojo
+  config-locations: classpath:mybatis/mybatis-config.xml
+  configuration:
+     map-underscore-to-camel-case: true
+     cache-enabled: false
+  #扫描*mapper。xml文件
+  mapper-locations: classpath*:mybatis/mapper/*.xml
